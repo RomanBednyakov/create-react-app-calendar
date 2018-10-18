@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "index.js",
+  "author": "Roman Bednyakov <rbednyakov@mentalstack.com>",
   "scripts": {
     "start": "webpack-dev-server",
     "clean": "rimraf dist",
