@@ -1,11 +1,27 @@
 import React from "react";
 import Select from "react-select";
+import chroma from "chroma-js";
 import "./selectFilter.scss";
 const colourStyles = {
   control: styles => ({ ...styles, backgroundColor: "white" }),
-  option: (styles, { data }) => {
+  option: (styles, { data, isDisabled, isSelected, isFocused }) => {
+    const color = chroma("#ccc");
     return {
       ...styles,
+      backgroundColor: isDisabled
+        ? null
+        : isSelected
+          ? "#d9dde0"
+          : isFocused
+            ? "#edf0f2"
+            : null,
+      color: isDisabled
+        ? "#ccc"
+        : isSelected
+          ? chroma.contrast(color, "white") > 2
+            ? "black"
+            : "black"
+          : "black",
       ":before": {
         background: data.color
       }
@@ -14,18 +30,23 @@ const colourStyles = {
   multiValue: (styles, { data }) => {
     return {
       ...styles,
-      backgroundColor: "#4A8AC0",
+      backgroundColor: "#edf0f2",
       paddingLeft: "5px",
       ":before": {
         background: data.color
       }
     };
   },
+  multiValueLabel: (styles, { data }) => ({
+    ...styles,
+    color: "black"
+  }),
   multiValueRemove: styles => ({
     ...styles,
-    color: "black",
+    color: "#7a7a7a",
     ":hover": {
-      color: "white"
+      color: "#040405",
+      cursor: "pointer"
     }
   })
 };
@@ -68,6 +89,7 @@ class SelectFilter extends React.Component {
           onChange={this.handleChangeSelect}
           closeMenuOnSelect={false}
           isMulti
+          placeholder="Filter Event Type"
           hideSelectedOptions={false}
           styles={colourStyles}
           options={this.state.optionsSelect}
